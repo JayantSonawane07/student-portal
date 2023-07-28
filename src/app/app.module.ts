@@ -10,13 +10,29 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableModule } from '@angular/material/table';
-import { MatTableExporterModule } from 'mat-table-exporter';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ToastrModule } from 'ngx-toastr';
+import { MatSortModule } from '@angular/material/sort';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 
 import { StudentListComponent } from 'src/components/student-list/student-list.component';
 import { StudentFormComponent } from 'src/components/student-form/student-form.component';
+import { DeleteDialogComponent } from 'src/components/delete-dialog/delete-dialog.component';
 
 @NgModule({
-  declarations: [AppComponent, StudentListComponent, StudentFormComponent],
+  declarations: [
+    AppComponent,
+    StudentListComponent,
+    StudentFormComponent,
+    DeleteDialogComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -27,7 +43,17 @@ import { StudentFormComponent } from 'src/components/student-form/student-form.c
     MatInputModule,
     MatFormFieldModule,
     MatTableModule,
-    MatTableExporterModule,
+    MatRadioModule,
+    MatCheckboxModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    MatDialogModule,
+    MatSortModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule,
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

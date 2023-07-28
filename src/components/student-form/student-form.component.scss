@@ -1,0 +1,11 @@
+.student-form-container {
+  mat-form-field {
+    width: 33%;
+    padding-right: 1rem;
+  }
+
+  mat-radio-button,
+  mat-checkbox {
+    padding-right: 2rem;
+  }
+}

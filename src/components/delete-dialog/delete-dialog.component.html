@@ -1,0 +1,19 @@
+<div class="delete-dialog-container">
+  Are you sure you want to delete this record?
+
+  <div class="student-data my-3">
+    <div class="name"><b>Name:</b> {{ data.name }}</div>
+    <div class="name"><b>Email:</b> {{ data.email }}</div>
+    <div class="name"><b>Address:</b> {{ data.address }}</div>
+    <div class="name"><b>Topics:</b> {{ data.topics }}</div>
+  </div>
+
+  <div class="buttons d-flex justify-content-between">
+    <button mat-stroked-button color="primary" (click)="closeDialog()">
+      Cancel
+    </button>
+    <button mat-raised-button color="primary" (click)="deleteRecord()">
+      Confirm
+    </button>
+  </div>
+</div>

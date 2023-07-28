@@ -1,62 +1,89 @@
-<div class="container w-100">
-  <div class="header">
-    <div class="search-bar">
-      <input placeholder="Search students by name" type="text" matInput />
+<div class="student-list-container w-100 d-flex flex-column p-3">
+  <div class="header w-100 d-flex justify-content-between">
+    <div class="search-bar w-75">
+      <input
+        class="w-100 h-100"
+        placeholder="Search students by name"
+        type="text"
+        matInput
+        (keyup)="applyFilter($event)"
+      />
     </div>
-    <div class="button">
-      <button mat-raised-button color="primary">Add New</button>
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="
-          exporter.exportTable('xlsx', {
-            fileName: 'test',
-            sheet: 'sheet_name',
-            Props: { Author: 'Talha' }
-          })
-        "
-      >
+    <div class="button d-flex justify-content-between pl-3">
+      <button mat-raised-button color="primary" (click)="addNewStudent()">
+        Add New
+      </button>
+      <button mat-raised-button color="primary" (click)="exportToExcel()">
         Export
       </button>
     </div>
   </div>
 
-  <div class="student-list">
+  <div class="student-list" #TABLE>
     <table
-      matTableExporter
-      #exporter="matTableExporter"
+      #table
       mat-table
       [dataSource]="dataSource"
       class="mat-elevation-z8"
+      matSort
     >
-      <!-- Name Column -->
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Name.</th>
-        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name.</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="name-details d-flex">
+            <div
+              class="icon d-flex align-items-center justify-content-center align-self-center"
+            >
+              {{ element.name?.initial }}
+            </div>
+            <div class="d-flex flex-column details">
+              <span
+                ><b>{{ element.name?.name }}</b></span
+              >
+              <span>{{ element.name?.phone }}</span>
+              <span>{{ element.name?.specilizations }}</span>
+            </div>
+          </div>
+        </td>
       </ng-container>
 
-      <!-- Email Column -->
       <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
         <td mat-cell *matCellDef="let element">{{ element.email }}</td>
       </ng-container>
 
-      <!-- Address Column -->
       <ng-container matColumnDef="address">
-        <th mat-header-cell *matHeaderCellDef>Address</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
         <td mat-cell *matCellDef="let element">{{ element.address }}</td>
       </ng-container>
 
-      <!-- Topics Column -->
       <ng-container matColumnDef="topics">
-        <th mat-header-cell *matHeaderCellDef>Topics</th>
-        <td mat-cell *matCellDef="let element">{{ element.topics }}</td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Topics</th>
+        <td mat-cell *matCellDef="let element">
+          <div>{{ element.topics }}</div>
+        </td>
       </ng-container>
 
-      <!-- Actions Column -->
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let element">Buttons Here</td>
+        <td mat-cell *matCellDef="let element">
+          <button
+            class="edit mr-2"
+            mat-raised-button
+            color="primary"
+            (click)="editRecord(element)"
+          >
+            Edit
+          </button>
+          <button
+            class="delete"
+            mat-raised-button
+            color="primary"
+            (click)="deleteRecord(element)"
+          >
+            Delete
+          </button>
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

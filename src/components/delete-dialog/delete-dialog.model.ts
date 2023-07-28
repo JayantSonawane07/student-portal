@@ -1,4 +1,4 @@
-export interface StudentTable {
+export interface DialogData {
   id: string;
   name: string;
   email: string;

@@ -1,1 +1,242 @@
-<p>student-form works!</p>
+<div class="student-form-container p-4 d-flex flex-column">
+  <form [formGroup]="registrationForm">
+    <div class="name-email d-flex">
+      <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input matInput pattern="[A-Za-z]+" formControlName="firstName" />
+        <mat-error
+          *ngIf="registrationForm.controls['firstName'].hasError('required')"
+        >
+          First name is required.
+        </mat-error>
+        <mat-error
+          *ngIf="registrationForm.controls['firstName'].hasError('pattern')"
+        >
+          Please enter a valid first name (only characters allowed).
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input matInput pattern="[A-Za-z]+" formControlName="lastName" />
+        <mat-error
+          *ngIf="registrationForm.controls['lastName'].hasError('required')"
+        >
+          Last name is required.
+        </mat-error>
+        <mat-error
+          *ngIf="registrationForm.controls['lastName'].hasError('pattern')"
+        >
+          Please enter a valid last name (only characters allowed).
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+          formControlName="email"
+        />
+        <mat-error
+          *ngIf="registrationForm.controls['email'].hasError('required')"
+          >Email is required.</mat-error
+        >
+        <mat-error
+          *ngIf="registrationForm.controls['email'].hasError('pattern')"
+          >Please enter a valid email address.</mat-error
+        >
+      </mat-form-field>
+    </div>
+    <div class="phone-address d-flex">
+      <mat-form-field appearance="outline">
+        <mat-label>Phone</mat-label>
+        <input matInput pattern="[0-9]{10}" formControlName="phone" />
+        <mat-error
+          *ngIf="registrationForm.controls['phone'].hasError('required')"
+          >Phone is required.</mat-error
+        >
+        <mat-error
+          *ngIf="registrationForm.controls['phone'].hasError('pattern')"
+          >Please enter a valid 10-digit phone number.</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="address" maxlength="30" />
+        <mat-error
+          *ngIf="registrationForm.controls['address'].hasError('required')"
+          >Address is required.</mat-error
+        >
+        <mat-error
+          *ngIf="registrationForm.controls['address'].hasError('maxlength')"
+          >Address should not exceed 30 characters.</mat-error
+        >
+      </mat-form-field>
+    </div>
+
+    <div class="city-state d-flex">
+      <mat-form-field appearance="outline">
+        <mat-label>City</mat-label>
+        <input matInput formControlName="city" />
+        <mat-error>City is required.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>State (auto-complete)</mat-label>
+        <input matInput [matAutocomplete]="auto" formControlName="state" />
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let state of filteredStates" [value]="state">
+            {{ state }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error>State is required.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Country</mat-label>
+        <!-- <input matInput formControlName="country" /> -->
+        <mat-select formControlName="country">
+          <mat-option *ngFor="let country of countries" [value]="country">
+            {{ country }}
+          </mat-option>
+        </mat-select>
+
+        <mat-error>Country is required.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="dob-gender d-flex">
+      <mat-form-field appearance="outline">
+        <mat-label>Birthday</mat-label>
+        <!-- <input matInput formControlName="dob" /> -->
+        <div class="d-flex p-0">
+          <input matInput [matDatepicker]="picker" formControlName="dob" />
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </div>
+
+        <mat-error>Birthday is required.</mat-error>
+      </mat-form-field>
+      <div class="gender d-flex flex-column">
+        <mat-label class="mb-2">Gender</mat-label>
+        <mat-radio-group aria-label="Select an option" formControlName="gender">
+          <mat-radio-button color="primary" value="male">Male</mat-radio-button>
+          <mat-radio-button color="primary" value="female"
+            >Female</mat-radio-button
+          >
+        </mat-radio-group>
+      </div>
+
+      <div class="hobbies d-flex flex-column">
+        <mat-label class="mb-2">Hobbies</mat-label>
+        <div class="d-flex">
+          <div *ngFor="let hobby of hobbies; let i = index">
+            <mat-checkbox
+              color="primary"
+              (change)="onHobbiesSelectionChange($event)"
+              [value]="hobby?.name"
+              [checked]="hobby?.isChecked"
+              >{{ hobby?.name }}</mat-checkbox
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="specialization w-100"
+      *ngFor="
+        let specilizations of specilizations().controls;
+        let specilizationIndex = index
+      "
+    >
+      <div formArrayName="specilizations">
+        <div class="d-flex flex-column" [formGroupName]="specilizationIndex">
+          <div class="d-flex justify-content-between align-items-center">
+            <mat-form-field appearance="outline">
+              <mat-label>Specialization</mat-label>
+              <input matInput formControlName="specilizationTitle" />
+            </mat-form-field>
+            <div>
+              <button
+                mat-stroked-button
+                color="primary"
+                (click)="removeSpecilization(specilizationIndex)"
+              >
+                Delete Specialization
+              </button>
+            </div>
+          </div>
+          <div class="d-flex flex-column justify-content-center w-100">
+            <div
+              class="topic-grade d-flex"
+              *ngFor="
+                let details of specilizationDetails(specilizationIndex)
+                  .controls;
+                let topicIndex = index
+              "
+            >
+              <div formArrayName="details">
+                <div [formGroupName]="topicIndex">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Topic</mat-label>
+                    <input matInput formControlName="topic" />
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Grade</mat-label>
+                    <input matInput formControlName="grades" />
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="delete-btn">
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  (click)="
+                    removeSpecilizationTopic(specilizationIndex, topicIndex)
+                  "
+                >
+                  Delete Topic
+                </button>
+              </div>
+            </div>
+            <div class="add-btn">
+              <button
+                mat-stroked-button
+                color="primary"
+                (click)="addSpecilizationTopic(specilizationIndex)"
+              >
+                Add Topic
+              </button>
+              <!-- </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="add-specialization">
+      <button mat-stroked-button color="primary" (click)="addSpecilization()">
+        Add Specialization
+      </button>
+    </div>
+
+    <div class="d-flex justify-content-between mt-3">
+      <button
+        mat-stroked-button
+        color="accent"
+        (click)="navigateToListScreen()"
+      >
+        Back
+      </button>
+      <button mat-raised-button color="primary" (click)="saveStudentRecord()">
+        Save
+      </button>
+    </div>
+  </form>
+</div>

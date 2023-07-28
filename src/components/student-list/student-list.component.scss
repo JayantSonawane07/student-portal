@@ -1,26 +1,9 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  padding: 2rem;
-
+.student-list-container {
   .header {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
     padding-bottom: 1rem;
-    .search-bar {
-      width: 75%;
-      input {
-        width: 100%;
-        height: 100%;
-      }
-    }
 
     .button {
       width: 24%;
-      display: flex;
-      justify-content: space-between;
-      padding-left: 2rem;
 
       button {
         padding: 0 1rem;
@@ -32,6 +15,24 @@
     .mat-table {
       width: 100%;
       height: 100%;
+
+      .edit {
+        margin-right: 1rem;
+      }
+
+      .icon {
+        width: 3rem;
+        height: 3rem;
+        font-size: 1.8rem;
+        font-weight: 600;
+        border-radius: 50%;
+        background-color: lightcoral;
+        color: white;
+      }
+
+      .details {
+        padding-left: 1rem;
+      }
     }
   }
 }
